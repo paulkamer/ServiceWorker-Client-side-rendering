@@ -1,0 +1,35 @@
+function loadUser() {
+  console.time('loading_template');
+
+  var json_data = {}
+  var template = '';
+
+  fetch('template.mst').then(function(response) {
+    console.timeEnd('loading_template');
+    return response.text().then(function(data) {
+      template = data;
+    })
+  })
+  .then(function() {
+    // load data
+    console.time('loading_data');
+
+    return fetch('data.json').then(function(response) {
+      return response.text().then(function(data) {
+        json_data = JSON.parse(data);
+        console.timeEnd('loading_data');
+      })
+    })
+    .then(function() {
+      console.time('rendering_template');
+      var rendered = Mustache.render(template, json_data);
+      document.getElementById('target').innerHTML = rendered
+      console.timeEnd('rendering_template');
+    });
+
+  });
+}
+
+//$(document).ready(function() {
+  loadUser();
+//});

@@ -1,0 +1,29 @@
+<html>
+<body onload="loadUser">
+<div id="target">Loading...</div>
+
+<!--<script src="/javascripts/jquery-2.2.0.min.js" type="text/javascript"></script>-->
+<script src="/javascripts/mustache.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  {{{ inline_javascript }}}
+
+if ('serviceWorker' in navigator) {
+  if (navigator.serviceWorker.controller) {
+          console.log(
+            navigator.serviceWorker.controller.scriptURL +
+            ' (onload)', 'controller'
+          );
+          console.log(
+            'An active service worker controller was found, ' +
+            'no need to register'
+          );
+  } else {
+    navigator.serviceWorker.register('service_worker.js', {scope: '/'});
+    navigator.serviceWorker.ready.then(function() { });
+  }
+}
+</script>
+</body>
+</html>
+
